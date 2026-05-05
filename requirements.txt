@@ -1,0 +1,58 @@
+# =============================================================================
+# RCF — Recruiter Contact Finder
+# Core dependencies (pinned to minimum working versions)
+# =============================================================================
+# Install:    pip install -r requirements.txt
+# Dev setup:  pip install -r requirements.txt[dev]
+# =============================================================================
+
+# CLI framework — powers the `rcf` command with subcommands, options, help
+typer>=0.9.0
+
+# Data validation & serialization — all Pydantic V2 models (ContactQuery, RecruiterContact, etc.)
+pydantic>=2.0
+
+# Settings management — pydantic-settings for .env / config file loading
+pydantic-settings>=2.0
+
+# Async HTTP client — all API plugins use httpx.AsyncClient for non-blocking I/O
+httpx>=0.25
+
+# Retry with exponential backoff — used across 15+ plugins (apollo, bayt, greenhouse, etc.)
+tenacity>=8.0
+
+# Structured JSON logging — pipeline orchestration, plugin tracing, redaction
+structlog>=23.0
+
+# Phone number parsing, validation & formatting — UAE/GCC phone validation (E.164, carrier detection)
+phonenumbers>=8.13
+
+# DNS resolution (MX lookups) — email verification pipeline checks MX records
+dnspython>=2.4
+
+# Excel export — styled XLSX output with conditional formatting, autofilter, frozen headers
+openpyxl>=3.1
+
+# HTML template engine — Jinja2-powered HTML export with confidence color-coding
+jinja2>=3.1
+
+# Rich terminal output — powers Typer's rich markup, tables, progress bars
+rich>=13.0
+
+# YAML parser — loads config.yml / rcf.yml configuration files
+pyyaml>=6.0
+
+# =============================================================================
+# Optional: Browser automation (LinkedIn / Facebook stealth scraping)
+# Uncomment the line below if you need browser-based plugins
+# =============================================================================
+# playwright>=1.40.0
+
+# =============================================================================
+# Development & Testing (install with: pip install -r requirements.txt[dev])
+# =============================================================================
+# pytest>=7.4
+# pytest-asyncio>=0.21
+# pytest-cov>=4.0
+# ruff>=0.1.0
+# mypy>=1.5

@@ -1,0 +1,215 @@
+# ============================================================
+# RCF — Recruiter Contact Finder Configuration
+# ============================================================
+# All keys have sensible defaults. Uncomment and modify to override.
+# API keys go in .env (see .env.example).
+# ============================================================
+
+# ── General Settings ──────────────────────────────────────────
+general:
+  default_region: "uae"
+  max_concurrent_requests: 5
+  request_delay_seconds: 2.0
+  user_agent_rotation: true
+  cache_ttl_hours: 168          # 1 week
+  data_retention_days: 90
+  log_level: "INFO"
+  log_file: "rcf.log"
+  database_path: "rcf_data.db"
+
+# ── UAE / GCC Settings ────────────────────────────────────────
+uae:
+  check_whatsapp: true
+  dual_tld_check: true          # try both .ae and .com for company domains
+  arabic_name_variants: true    # generate permutations for Al, Bin, Mohammed
+  detect_ats: true              # detect Taleo, SAP SF, PageUp career pages
+  carrier_detection: true       # detect Etisalat/du/Virgin from phone prefix
+  emirate_detection: true       # infer emirate from phone/address
+  preferred_contact_method: "whatsapp"  # whatsapp, email, phone
+
+# ── Browser Settings ──────────────────────────────────────────
+browser:
+  headless: true
+  stealth_mode: true
+  browser_pool_size: 3
+  context_reuse: true
+  lightpanda_path: null         # auto-detect or set path to Lightpanda binary
+  camoufox_profile: null        # path to Camoufox Firefox profile
+
+# ── Rate Limiting ─────────────────────────────────────────────
+# Per-source-type limits (requests per minute)
+rate_limits:
+  api: 10
+  scrape: 6
+  browser: 4
+  smtp: 3
+
+# ── Verification Settings ─────────────────────────────────────
+verification:
+  email:
+    enabled: true
+    tiers:                      # run in order, stop on definitive result
+      - syntax
+      - dns
+      - smtp
+      - api
+    skip_smtp_for_m365: true    # M365 accepts all RCPT TO → false positives
+    use_hibp_fallback: true     # use breach DB as verification signal
+  phone:
+    enabled: true
+    libphonenumber: true        # validate + format with google-libphonenumber
+    whatsapp_check: true        # ping WhatsApp presence to confirm WA-enabled
+    carrier_detection: true     # detect carrier from prefix
+
+# ── Scoring Thresholds ────────────────────────────────────────
+scoring:
+  minimum_confidence: 0.5
+  prefer_phone_over_email: false
+  uae_regional_bonus: 0.05      # confidence bonus for UAE-sourced data
+
+# ── Export Defaults ────────────────────────────────────────────
+export:
+  default_format: "csv"
+  include_confidence: true
+  include_sources: true
+  include_verification_status: true
+  include_timestamps: true
+  deduplicate: true
+
+# ── Sources Configuration ─────────────────────────────────────
+# Each source can be enabled/disabled, given a priority (1=highest),
+# and linked to an API key env variable.
+# Sources not listed here use built-in defaults (see config.py).
+sources:
+  # ── Email Discovery APIs ──
+  hunter:
+    enabled: true
+    priority: 2
+    api_key_env: "HUNTER_API_KEY"
+  apollo:
+    enabled: true
+    priority: 2
+    api_key_env: "APOLLO_API_KEY"
+  snov:
+    enabled: true
+    priority: 2
+    api_key_env: "SNOV_API_KEY"
+  seamless_ai:
+    enabled: true
+    priority: 3
+    api_key_env: "SEAMLESS_AI_KEY"
+  tomba:
+    enabled: false
+    priority: 3
+    api_key_env: "TOMBA_API_KEY"
+
+  # ── Email Verification APIs ──
+  zerobounce:
+    enabled: true
+    priority: 2
+    api_key_env: "ZEROBOUNCE_API_KEY"
+  neverbounce:
+    enabled: false
+    priority: 3
+    api_key_env: "NEVERBOUNCE_API_KEY"
+  kickbox:
+    enabled: false
+    priority: 3
+    api_key_env: "KICKBOX_API_KEY"
+
+  # ── Phone & Location APIs ──
+  google_places:
+    enabled: true
+    priority: 1
+    api_key_env: "GOOGLE_PLACES_API_KEY"
+  abstract_api:
+    enabled: false
+    priority: 3
+    api_key_env: "ABSTRACT_API_KEY"
+
+  # ── Social & OSINT ──
+  hibp:
+    enabled: false
+    priority: 4
+    api_key_env: "HIBP_API_KEY"
+  maigret:
+    enabled: false
+    priority: 4
+  github_email:
+    enabled: false
+    priority: 4
+
+  # ── Browser-based Sources ──
+  linkedin:
+    enabled: true
+    priority: 3
+    requires_browser: true
+  google_dorking:
+    enabled: true
+    priority: 2
+
+  # ── GCC Job Boards ──
+  bayt:
+    enabled: true
+    priority: 2
+  naukri_gulf:
+    enabled: true
+    priority: 2
+  gulf_talent:
+    enabled: true
+    priority: 2
+  laimoon:
+    enabled: false
+    priority: 3
+  foundit_gulf:
+    enabled: false
+    priority: 3
+
+  # ── GCC Classifieds (direct phone numbers) ──
+  expatriates:
+    enabled: true
+    priority: 1
+  dubizzle:
+    enabled: true
+    priority: 1
+
+  # ── GCC Directories ──
+  dmcc_directory:
+    enabled: true
+    priority: 2
+  yellowpages_ae:
+    enabled: true
+    priority: 2
+  chamber_of_commerce:
+    enabled: false
+    priority: 3
+
+  # ── Social / Community ──
+  facebook_groups:
+    enabled: false
+    priority: 3
+    requires_browser: true
+  telegram_groups:
+    enabled: false
+    priority: 4
+
+  # ── Events ──
+  hrse_speakers:
+    enabled: false
+    priority: 3
+  university_career_fairs:
+    enabled: false
+    priority: 4
+
+  # ── Aggregators ──
+  indeed_uae:
+    enabled: false
+    priority: 3
+
+  # ── Email Permutation / Guessing ──
+  mailfoguess:
+    enabled: false
+    priority: 4
+  name2email:
+    enabled: false
+    priority: 4

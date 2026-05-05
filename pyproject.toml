@@ -1,0 +1,183 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# ---------------------------------------------------------------------------
+# Project metadata
+# ---------------------------------------------------------------------------
+
+[project]
+name = "rcf"
+version = "0.1.0"
+description = "UAE/GCC-optimized recruiter contact discovery CLI"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "RCF Team" },
+]
+keywords = ["recruiter", "contact-finder", "uae", "gcc", "cli", "headhunter"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Human Resources",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+]
+
+# ---------------------------------------------------------------------------
+# Core dependencies — verified against actual imports in the codebase
+# ---------------------------------------------------------------------------
+
+dependencies = [
+    # CLI framework — rcf/cli.py (typer.Typer app)
+    "typer>=0.9.0",
+
+    # Data models — models/models.py, rcf/config.py (BaseModel, Field, validators)
+    "pydantic>=2.0",
+
+    # Settings management — potential use with pydantic-settings
+    "pydantic-settings>=2.0",
+
+    # Async HTTP client — all plugins (httpx.AsyncClient for API calls)
+    "httpx>=0.25",
+
+    # Retry logic — apollo, abstract_api, bayt, dmcc, expatriates, greenhouse, etc.
+    "tenacity>=8.0",
+
+    # Structured logging — rcf/logging.py, orchestrator.py, apollo.py, etc.
+    "structlog>=23.0",
+
+    # Phone number parsing & validation — spec/phone_validator.py, spec/deduplicator.py
+    "phonenumbers>=8.13",
+
+    # DNS lookups (MX records) — models/validators.py, spec/email_verifier.py
+    "dnspython>=2.4",
+
+    # XLSX export — rcf/export.py (styled spreadsheets)
+    "openpyxl>=3.1",
+
+    # HTML export — rcf/export.py (Jinja2 templates)
+    "jinja2>=3.1",
+
+    # Pretty console output — rcf/cli.py (rich_markup_mode in Typer)
+    "rich>=13.0",
+
+    # YAML config loading — rcf/config.py (config.yml parsing)
+    "pyyaml>=6.0",
+]
+
+# ---------------------------------------------------------------------------
+# Optional dependency groups
+# ---------------------------------------------------------------------------
+
+[project.optional-dependencies]
+# Browser automation — linkedin.py, facebook_groups.py (Playwright stealth scraping)
+browser = [
+    "playwright>=1.40.0",
+]
+
+# Development & testing
+dev = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5",
+]
+
+# Just testing
+test = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
+]
+
+# All optional deps combined
+all = [
+    "rcf[browser,dev]",
+]
+
+# ---------------------------------------------------------------------------
+# Entry point — `rcf` command on PATH after `pip install .`
+# ---------------------------------------------------------------------------
+
+[project.scripts]
+rcf = "rcf.cli:app"
+
+# ---------------------------------------------------------------------------
+# Tool: ruff (linter + formatter)
+# ---------------------------------------------------------------------------
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "TCH",  # flake8-type-checking
+    "RUF",  # ruff-specific rules
+]
+ignore = [
+    "E501",   # line length handled by formatter
+    "B008",   # function call in default argument (common in Typer)
+    "SIM108", # ternary operator (sometimes less readable)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rcf", "models"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# ---------------------------------------------------------------------------
+# Tool: pytest
+# ---------------------------------------------------------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["spec", "tests"]
+asyncio_mode = "auto"
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests that require external API access",
+    "browser: marks tests that require Playwright",
+    "network: marks tests that require network access (skip in CI)",
+]
+
+# ---------------------------------------------------------------------------
+# Tool: mypy
+# ---------------------------------------------------------------------------
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "phonenumbers.*",
+    "dns.*",
+    "openpyxl.*",
+    "structlog.*",
+    "tenacity.*",
+    "yaml.*",
+]
+ignore_missing_imports = true
