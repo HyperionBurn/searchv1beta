@@ -22,6 +22,7 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote as _url_quote
 
 import httpx
 import structlog
@@ -147,7 +148,7 @@ class FacebookGroupsPlugin(SourcePlugin):
                 (query.keywords or []) + query.company_names[:2]
             )
             for slug in slugs[:2]:  # Limit search queries
-                encoded = __import__("urllib.parse").quote(search_terms)
+                encoded = _url_quote(search_terms)
                 urls.append(
                     f"https://m.facebook.com/groups/{slug}/search/?q={encoded}"
                 )

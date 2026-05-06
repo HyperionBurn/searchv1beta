@@ -151,9 +151,13 @@ class DeduplicationEngine:
 
         phones: list[PhoneRecord] = []
         if best_phone:
-            phones.append(PhoneRecord(
-                phone=best_phone,
-            ))
+            try:
+                phones.append(PhoneRecord(
+                    phone=best_phone,
+                ))
+            except Exception:
+                # Skip phones that don't validate (e.g. non-GCC numbers)
+                pass
 
         from models.enums import Region
 

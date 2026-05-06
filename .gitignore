@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Database
+*.db
+*.sqlite3
+rcf_data.db
+
+# Logs
+*.log
+rcf.log
+
+# Data / output files
+rcf_search_*.csv
+rcf_search_*.json
+rcf_search_*.xlsx
+rcf_search_*.html
+results_*.csv
+data/
+
+# Cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# OMG workflow state
+.omg/
+
+# Playwright
+.playwright/
+
+# Cookies / sessions
+cookies/
+.secrets/
