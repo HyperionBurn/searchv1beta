@@ -136,8 +136,24 @@ sources:
     enabled: false
     priority: 4
   github_email:
-    enabled: false
+    enabled: true
     priority: 4
+
+  # ── Free Verification APIs ──
+  disify:
+    enabled: true
+    priority: 3
+    # No API key needed — completely free, unlimited
+  verifalia:
+    enabled: true
+    priority: 3
+    api_key_env: "VERIFALIA_USERNAME"  # + VERIFALIA_PASSWORD env var
+    # Free: 25 verifications/day = 750/month
+  numlookup:
+    enabled: true
+    priority: 3
+    api_key_env: "NUMLOOKUP_API_KEY"
+    # Free: 100 validations/month
 
   # ── Browser-based Sources ──
   linkedin:

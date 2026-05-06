@@ -49,6 +49,18 @@ pyyaml>=6.0
 # playwright>=1.40.0
 
 # =============================================================================
+# Anti-Detection Browser Automation
+# Camoufox — Anti-fingerprint Firefox for LinkedIn/Facebook stealth scraping
+# Botasaurus — Anti-detect framework with human-like cursor, proxy rotation
+# DrissionPage — Dual-mode HTTP/browser scraping (SessionPage + ChromiumPage)
+# curl_cffi — TLS fingerprint spoofing (Chrome/Firefox JA3/JA4 impersonation)
+# =============================================================================
+camoufox>=0.4.0
+botasaurus>=4.0.0
+DrissionPage>=4.0.0
+curl_cffi>=0.14.0
+
+# =============================================================================
 # Development & Testing (install with: pip install -r requirements.txt[dev])
 # =============================================================================
 # pytest>=7.4

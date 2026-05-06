@@ -811,4 +811,64 @@ ALL_PLUGINS: dict[str, PluginSpec] = {
         url_pattern="https://careers.etihad.com/",
         extraction_method="drissionpage_scrape",
     ),
+
+    # ==================================================================
+    # FREE VERIFICATION / OSINT PLUGINS (4)
+    # ==================================================================
+
+    "disify": PluginSpec(
+        name="disify",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email_verification", "disposable_detection"],
+        priority=3,
+        requires_browser=False,
+        api_key_env=None,  # No API key needed — completely free
+        rate_limit_rpm=6,
+        rate_limit_monthly=None,  # Unlimited
+        url_pattern="https://disify.com/api/email",
+        extraction_method="rest_api",
+    ),
+
+    "github_email": PluginSpec(
+        name="github_email",
+        source_type=SourceType.OSINT,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "name", "github_profile", "company"],
+        priority=4,
+        requires_browser=False,
+        api_key_env="GITHUB_TOKEN",  # Optional — 60/hr without, 5K/hr with
+        rate_limit_rpm=10,
+        rate_limit_monthly=None,
+        url_pattern="https://api.github.com",
+        extraction_method="rest_api",
+    ),
+
+    "verifalia": PluginSpec(
+        name="verifalia",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email_verification"],
+        priority=3,
+        requires_browser=False,
+        api_key_env="VERIFALIA_USERNAME",
+        rate_limit_rpm=6,
+        rate_limit_monthly=750,  # 25/day * 30
+        url_pattern="https://api.verifalia.com/v2.3",
+        extraction_method="rest_api",
+    ),
+
+    "numlookup": PluginSpec(
+        name="numlookup",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["phone_validation", "carrier_detection"],
+        priority=3,
+        requires_browser=False,
+        api_key_env="NUMLOOKUP_API_KEY",
+        rate_limit_rpm=6,
+        rate_limit_monthly=100,
+        url_pattern="https://api.numlookupapi.com/v1",
+        extraction_method="rest_api",
+    ),
 }
