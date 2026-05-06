@@ -765,4 +765,50 @@ ALL_PLUGINS: dict[str, PluginSpec] = {
         url_pattern="local://arabic_name",
         extraction_method="local_computation",
     ),
+
+    # ==================================================================
+    # DRISSIONPAGE PLUGINS (3) — new browser-enhanced sources
+    # ==================================================================
+
+    "yp_uae_directory": PluginSpec(
+        name="yp_uae_directory",
+        source_type=SourceType.DIRECTORY,
+        regions=[Region.UAE],
+        data_types=["company", "phone", "email", "address"],
+        priority=1,
+        requires_browser=False,
+        api_key_env=None,
+        rate_limit_rpm=6,
+        rate_limit_monthly=None,
+        url_pattern="https://www.yellowpages-uae.com/uae/recruitment-consultants",
+        extraction_method="drissionpage_scrape",
+    ),
+
+    "emaratfinder": PluginSpec(
+        name="emaratfinder",
+        source_type=SourceType.DIRECTORY,
+        regions=[Region.UAE],
+        data_types=["company", "phone", "address"],
+        priority=1,
+        requires_browser=False,
+        api_key_env=None,
+        rate_limit_rpm=6,
+        rate_limit_monthly=None,
+        url_pattern="https://emaratfinder.com/categories/en/recruitment-agency",
+        extraction_method="drissionpage_scrape",
+    ),
+
+    "etihad_careers": PluginSpec(
+        name="etihad_careers",
+        source_type=SourceType.SCRAPE,
+        regions=[Region.UAE],
+        data_types=["company", "email", "name"],
+        priority=2,
+        requires_browser=False,
+        api_key_env=None,
+        rate_limit_rpm=6,
+        rate_limit_monthly=None,
+        url_pattern="https://careers.etihad.com/",
+        extraction_method="drissionpage_scrape",
+    ),
 }
