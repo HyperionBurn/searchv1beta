@@ -99,9 +99,35 @@ sources:
     priority: 3
     api_key_env: "SEAMLESS_AI_KEY"
   tomba:
-    enabled: false
+    enabled: true
+    priority: 2
+    api_key_env: "TOMBA_API_KEY"  # + TOMBA_API_SECRET env var
+    # Best Apollo alternative: 50/mo free, phone finder, verification free
+  anymail_finder:
+    enabled: true
+    priority: 2
+    api_key_env: "ANYMAIL_FINDER_API_KEY"
+    # 100 credits trial, no rate limits, 97%+ deliverability
+  dropcontact:
+    enabled: true
     priority: 3
-    api_key_env: "TOMBA_API_KEY"
+    api_key_env: "DROPCONTACT_API_KEY"
+    # 100 credits trial, GDPR-compliant, phone + LinkedIn enrichment
+  lusha:
+    enabled: true
+    priority: 3
+    api_key_env: "LUSHA_API_KEY"
+    # 5 credits/mo free, 40 on trial — best for phone numbers
+  skrapp:
+    enabled: true
+    priority: 3
+    api_key_env: "SKRAPP_API_KEY"
+    # 50 credits/mo — LinkedIn email enrichment (API needs paid plan)
+  kaspr:
+    enabled: true
+    priority: 4
+    api_key_env: "KASPR_API_KEY"
+    # 20 credits/mo — LinkedIn phone + email (needs LinkedIn URL)
 
   # ── Email Verification APIs ──
   zerobounce:

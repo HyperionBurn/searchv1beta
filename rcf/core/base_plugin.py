@@ -871,4 +871,92 @@ ALL_PLUGINS: dict[str, PluginSpec] = {
         url_pattern="https://api.numlookupapi.com/v1",
         extraction_method="rest_api",
     ),
+
+    # ==================================================================
+    # APOLLO ALTERNATIVES — Email + Phone Discovery APIs (6)
+    # ==================================================================
+
+    "tomba": PluginSpec(
+        name="tomba",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "phone", "name", "company", "linkedin", "email_verification"],
+        priority=2,
+        requires_browser=False,
+        api_key_env="TOMBA_API_KEY",  # + TOMBA_API_SECRET
+        rate_limit_rpm=60,
+        rate_limit_monthly=50,
+        url_pattern="https://api.tomba.io/v1",
+        extraction_method="rest_api",
+    ),
+
+    "anymail_finder": PluginSpec(
+        name="anymail_finder",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "email_verification", "company"],
+        priority=2,
+        requires_browser=False,
+        api_key_env="ANYMAIL_FINDER_API_KEY",
+        rate_limit_rpm=10,
+        rate_limit_monthly=100,  # One-time trial
+        url_pattern="https://api.anymailfinder.com/v5.1",
+        extraction_method="rest_api",
+    ),
+
+    "dropcontact": PluginSpec(
+        name="dropcontact",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "phone", "name", "company", "linkedin", "title"],
+        priority=3,
+        requires_browser=False,
+        api_key_env="DROPCONTACT_API_KEY",
+        rate_limit_rpm=60,
+        rate_limit_monthly=100,  # One-time trial
+        url_pattern="https://api.dropcontact.com/v1",
+        extraction_method="rest_api",
+    ),
+
+    "lusha": PluginSpec(
+        name="lusha",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "phone", "name", "company", "title"],
+        priority=3,
+        requires_browser=False,
+        api_key_env="LUSHA_API_KEY",
+        rate_limit_rpm=25,
+        rate_limit_monthly=5,  # 5 free, 40 on trial
+        url_pattern="https://api.lusha.com",
+        extraction_method="rest_api",
+    ),
+
+    "skrapp": PluginSpec(
+        name="skrapp",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "email_verification", "linkedin"],
+        priority=3,
+        requires_browser=False,
+        api_key_env="SKRAPP_API_KEY",
+        rate_limit_rpm=10,
+        rate_limit_monthly=50,  # Requires paid plan for API
+        url_pattern="https://api.skrapp.io",
+        extraction_method="rest_api",
+    ),
+
+    "kaspr": PluginSpec(
+        name="kaspr",
+        source_type=SourceType.API,
+        regions=[Region.UAE, Region.SAUDI, Region.QATAR, Region.BAHRAIN, Region.OMAN, Region.KUWAIT, Region.GLOBAL],
+        data_types=["email", "phone", "name", "linkedin"],
+        priority=4,
+        requires_browser=False,
+        api_key_env="KASPR_API_KEY",
+        rate_limit_rpm=10,
+        rate_limit_monthly=20,
+        url_pattern="https://api.kaspr.io",
+        extraction_method="rest_api",
+    ),
 }
